@@ -1,0 +1,126 @@
+import net.nessness.playground.Libs
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "net.nessness.playground"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    packagingOptions {
+        // https://github.com/Kotlin/kotlinx.coroutines#avoiding-including-the-debug-infrastructure-in-the-resulting-apk
+        exclude "DebugProbesKt.bin"
+
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
+        exclude("META-INF/*.kotlin_module")
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+}
+
+kapt {
+    correctErrorTypes true
+}
+
+hilt {
+    enableTransformForLocalTests = true
+}
+
+dependencies {
+
+    implementation project(':data:repository')
+    implementation project(':data:db')
+    implementation project(':data:api')
+
+    implementation Libs.Kotlin.stdlib
+    implementation Libs.Coroutines.core
+
+    implementation Libs.AndroidX.coreKtx
+    implementation Libs.AndroidX.appcompat
+    implementation Libs.AndroidX.constraintlayout
+    implementation Libs.AndroidX.recyclerview
+    implementation Libs.AndroidX.viewpager2
+    implementation Libs.AndroidX.swiperefresh
+    implementation Libs.AndroidX.Lifecycle.livedata
+    implementation Libs.AndroidX.Lifecycle.viewmodel
+    implementation Libs.AndroidX.Navigation.fragment
+    implementation Libs.AndroidX.Navigation.ui
+    implementation Libs.AndroidX.Room.ktx
+    kapt Libs.AndroidX.Room.compiler
+    implementation Libs.AndroidX.Paging.runtime
+    implementation Libs.AndroidX.Hilt.viewmodel
+    kapt Libs.AndroidX.Hilt.compiler
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.compiler
+
+
+//    implementation Libs.Google.analytics
+//    implementation Libs.Google.analytics
+
+    implementation Libs.Mdc.material
+
+    implementation Libs.Retrofit.retrofit
+
+    implementation Libs.Groupie.groupie
+    implementation Libs.Groupie.viewBinding
+
+    implementation Libs.Glide.glide
+    kapt Libs.Glide.compiler
+
+    implementation Libs.timber
+
+    testImplementation Libs.junit
+    testImplementation Libs.mockK
+    testImplementation Libs.robolectric
+    testImplementation Libs.AndroidX.Test.Ext.junit
+    testImplementation Libs.AndroidX.Test.rules
+    testImplementation Libs.AndroidX.coreTesting
+    testImplementation Libs.Coroutines.test
+    testImplementation Libs.Hilt.test
+    kaptTest Libs.Hilt.compiler
+}
